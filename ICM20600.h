@@ -214,6 +214,7 @@ class ICM20600 {
     void setGyroOutputDataRate(gyro_lownoise_odr_type_t odr);
 
     void getAcceleration(int16_t* x, int16_t* y, int16_t* z);
+	void getAccelerationFloat(float* x, float* y, float* z);
     int16_t getAccelerationX(void);
     int16_t getAccelerationY(void);
     int16_t getAccelerationZ(void);
@@ -222,6 +223,7 @@ class ICM20600 {
     int16_t getRawAccelerationZ(void);
 
     void getGyroscope(int16_t* x, int16_t* y, int16_t* z);
+	void getGyroscopeFloat(float* x, float* y, float* z);
     int16_t getGyroscopeX(void);
     int16_t getGyroscopeY(void);
     int16_t getGyroscopeZ(void);

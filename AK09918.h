@@ -109,6 +109,7 @@ class AK09918 {
     AK09918_err_type_t getData(int32_t* axis_x, int32_t* axis_y, int32_t* axis_z);
     // Get raw I2C magnet data
     AK09918_err_type_t getRawData(int32_t* axis_x, int32_t* axis_y, int32_t* axis_z);
+    AK09918_err_type_t getRawData(int16_t* axis_x, int16_t* axis_y, int16_t* axis_z);
 
 
     // Return the working mode of AK09918

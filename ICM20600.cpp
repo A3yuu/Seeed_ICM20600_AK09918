@@ -427,3 +427,24 @@ void ICM20600::reset() {
     data |= ICM20600_RESET_BIT;
     I2Cdev::writeByte(_addr, ICM20600_USER_CTRL, data);
 }
+
+void ICM20600::getAccelerationFloat(float* x, float* y, float* z) {
+    int16_t _x, _y, _z;
+    I2Cdev::readBytes(_addr, ICM20600_ACCEL_XOUT_H, 6, _buffer);
+    _x = ((int16_t)_buffer[0] << 8) | _buffer[1];
+    _y = ((int16_t)_buffer[2] << 8) | _buffer[3];
+    _z = ((int16_t)_buffer[4] << 8) | _buffer[5];
+    *x = ((float)_x) * _acc_scale * 0.000015258789f; //1/65536
+    *y = ((float)_y) * _acc_scale * 0.000015258789f;
+    *z = ((float)_z) * _acc_scale * 0.000015258789f;
+}
+void ICM20600::getGyroscopeFloat(float* x, float* y, float* z) {
+    int16_t _x, _y, _z;
+    I2Cdev::readBytes(_addr, ICM20600_GYRO_XOUT_H, 6, _buffer);
+    _x = ((int16_t)_buffer[0] << 8) | _buffer[1];
+    _y = ((int16_t)_buffer[2] << 8) | _buffer[3];
+    _z = ((int16_t)_buffer[4] << 8) | _buffer[5];
+    *x = ((float)_x) * _gyro_scale * 0.000015258789f;
+    *y = ((float)_y) * _gyro_scale * 0.000015258789f;
+    *z = ((float)_z) * _gyro_scale * 0.000015258789f;
+}

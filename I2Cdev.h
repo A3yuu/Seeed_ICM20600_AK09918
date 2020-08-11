@@ -75,6 +75,10 @@
     #endif
     #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
         #include <Wire.h>
+        #ifndef BUFFER_LENGTH
+                #warning "i2c BUFFER_LENGTH not defined. Check the Wire.h file for you hardware. Self-defining as 32."
+        	#define BUFFER_LENGTH 32
+        #endif
     #endif
 #else
     #include "ArduinoWrapper.h"

@@ -242,3 +242,34 @@ uint8_t AK09918::_getRawMode() {
         return _buffer[0];
     }
 }
+AK09918_err_type_t AK09918::getRawData(int16_t* axis_x, int16_t* axis_y, int16_t* axis_z) {
+    if (_mode == AK09918_NORMAL) {
+        AK09918::switchMode(AK09918_NORMAL);
+        bool is_end = false;
+        int count = 0;
+        while (!is_end) {
+            if (AK09918::_getRawMode() == 0x00) {
+                is_end = true;
+            }
+            if (count >= 15) {
+                return AK09918_ERR_TIMEOUT;
+            }
+            count++;
+            delay(1);
+        }
+    }
+
+
+    if (!I2Cdev::readBytes(_addr, AK09918_HXL, 8, _buffer)) {
+        return AK09918_ERR_READ_FAILED;
+    }
+    else {
+        *axis_x = ((int16_t)_buffer[1] << 8) | _buffer[0];
+        *axis_y = ((int16_t)_buffer[3] << 8) | _buffer[2];
+        *axis_z = ((int16_t)_buffer[5] << 8) | _buffer[4];
+        if (_buffer[7] & AK09918_HOFL_BIT) {
+            return AK09918_ERR_OVERFLOW;
+        }
+        return AK09918_ERR_OK;
+    }
+}
